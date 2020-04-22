@@ -5,7 +5,6 @@ import curses
 
 
 def signal_handler(sig, frame):
-    print('You pressed Ctrl+C!')
     curses.nocbreak()
     curses.echo()
     curses.endwin()
