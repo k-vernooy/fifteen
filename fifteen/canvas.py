@@ -23,7 +23,16 @@ class Canvas:
             self.stdscr.addstr(index, 0, string)
             index += 1
 
-        self.stdscr.getch()
+        ch = self.stdscr.getch()
+        
+        if ch == curses.KEY_UP:
+            self.board.move(1)
+        elif ch == curses.KEY_RIGHT:
+            self.board.move(2)
+        elif ch == curses.KEY_DOWN:
+            self.board.move(3)
+        else:
+            self.board.move(4)
 
     def cleanup(self):
         curses.nocbreak()

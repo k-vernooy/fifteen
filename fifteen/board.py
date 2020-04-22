@@ -48,11 +48,11 @@ class Board:
     def complete(self):
         """Gets whether or not the current game is complete"""
 
-        for i in range(0, x * y - 1):
-            if board[i] != i:
-                return false
+        for i in range(0, self.width * self.height - 1):
+            if self.board[i] != i:
+                return False
         
-        return true
+        return True
 
     def to_string(self):
         strings = []
@@ -66,5 +66,5 @@ class Board:
                     string += " "
                 string += ", "
             strings.append(string)
-            
+
         return strings
