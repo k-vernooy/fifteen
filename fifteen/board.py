@@ -8,7 +8,7 @@ class Board:
         # size the board
         self.height = y
         self.width = x
-        self.board = range(1, x * y + 1)
+        self.board = list(range(1, x * y + 1))
 
         # set the empty to last index of board
         self.empty = x * y - 1
@@ -26,6 +26,7 @@ class Board:
             # move right
             if self.empty % self.width != 0:
                 check = self.empty - 1
+                print (check)
         elif dir == 3:
             # move down
             if self.empty - self.width >= 0:
@@ -35,13 +36,9 @@ class Board:
             if self.empty % self.width != self.width - 1:
                 check = self.empty + 1
 
-        try:
+        if check != None:
             self.board[self.empty] = self.board[check]
-            empty = check
-            print("moved")
-        except:
-            check == None
-            print("invalid move")
+            self.empty = check
 
     def shuffle(self):
         """Randomly suffles the board"""
@@ -57,13 +54,17 @@ class Board:
         
         return true
 
-    def print(self):
+    def to_string(self):
+        strings = []
+
         for i in range(self.height):
+            string = ""
             for j in range(self.width):
                 if self.empty != i * self.width + j:
-                    print(self.board[i * self.width + j], end="")
+                    string += str(self.board[i * self.width + j])
                 else:
-                    print(" ", end="")
-                    
-                print(", ", end="")
-            print()
+                    string += " "
+                string += ", "
+            strings.append(string)
+            
+        return strings
