@@ -1,5 +1,4 @@
 import board
-import canvas
 import sys
 import signal
 import curses
@@ -14,10 +13,9 @@ def signal_handler(sig, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 board = board.Board(int(sys.argv[1]), int(sys.argv[2]))
-canvas = canvas.Canvas(board)
 
-while not canvas.board.complete():
-    canvas.draw()
+while not board.complete():
+    board.draw()
 
-canvas.cleanup()
+board.cleanup()
 signal.pause()
