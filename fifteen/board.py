@@ -1,5 +1,6 @@
 from random import shuffle, randint
 
+
 class Board:
     """Represents a grid of blocks with an empty spot"""
     
@@ -21,11 +22,11 @@ class Board:
             # move up
             if (self.empty + self.width <= len(self.board)):
                 check = self.empty + self.width
-        else if dir == 2:
+        elif dir == 2:
             # move right
             if self.empty % self.width != 0:
                 check = self.empty - 1
-        else if dir == 3:
+        elif dir == 3:
             # move down
             if self.empty - self.width >= 0:
                 check = self.empty - self.width
@@ -47,7 +48,7 @@ class Board:
         shuffle(board)
         randint(0, self.height * self.width)
 
-    def complete():
+    def complete(self):
         """Gets whether or not the current game is complete"""
 
         for i in range(0, x * y - 1):
@@ -55,3 +56,14 @@ class Board:
                 return false
         
         return true
+
+    def print(self):
+        for i in range(self.height):
+            for j in range(self.width):
+                if self.empty != i * self.width + j:
+                    print(self.board[i * self.width + j], end="")
+                else:
+                    print(" ", end="")
+                    
+                print(", ", end="")
+            print()

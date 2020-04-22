@@ -4,7 +4,7 @@ class Canvas:
     def __init__(self, board):
         self.board = board
 
-    def draw():
+    def draw(self):
         """Draw the canvas to the terminal"""
         
         for value in board:
