@@ -17,4 +17,5 @@ while not board.complete():
     board.draw()
 
 board.cleanup()
+sys.exit(0)
 signal.pause()

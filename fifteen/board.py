@@ -29,6 +29,7 @@ class Board:
         curses.noecho()
         curses.cbreak()
         self.stdscr.keypad(True)
+        self.shuffle()
 
 
     def move(self, dir):
@@ -36,6 +37,9 @@ class Board:
         # index of value to move
         check = None
         
+        # self.board[self.empty] = 1
+        # self.empty = 2
+
         if dir == 1:
             # move up
             if (self.empty + self.width <= len(self.board)):
@@ -44,7 +48,6 @@ class Board:
             # move right
             if self.empty % self.width != 0:
                 check = self.empty - 1
-                print (check)
         elif dir == 3:
             # move down
             if self.empty - self.width >= 0:
@@ -61,27 +64,27 @@ class Board:
 
     def shuffle(self):
         """Randomly suffles the board"""
-        shuffle(board)
-        randint(0, self.height * self.width)
+        shuffle(self.board)
+        self.empty = self.board.index(16) #randint(0, self.height * self.width)
 
 
     def complete(self):
         """Gets whether or not the current game is complete"""
 
-        for i in range(0, self.width * self.height - 1):
-            if self.board[i] != i:
+        for i in range(1, (self.width * self.height) - 1):
+            if self.board[i - 1] != i:
                 return False
         
         return True
 
 
-    def get_string(self, val):
+    def get_string(self, val, index):
         """Returns list of strings that make a block with a number"""
         strings = []
         strings.append("▗▄▄▄▖");
         # strings.append(str(val))
         
-        if self.empty + 1 == val:
+        if self.empty + 1 == index:
             strings.append("▐███▌")
         else:
             middle = ""
@@ -108,14 +111,15 @@ class Board:
     def draw(self):
         """Draw the board to the terminal"""
 
+        self.stdscr.clear()
         curses.use_default_colors()
         curses.init_pair(1, curses.COLOR_RED, -1)
         curses.init_pair(2, -1, curses.COLOR_RED)
-        
+
         for i in range(0, self.height):
             for j in range(0, self.width):
                 index = i * self.width + j
-                square = self.get_string(self.board[index])
+                square = self.get_string(self.board[index], index + 1)
 
                 y = i * 3
                 x = j * 5
