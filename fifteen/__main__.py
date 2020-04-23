@@ -10,12 +10,21 @@ def signal_handler(sig, frame):
     curses.endwin()
     sys.exit(0)
 
-signal.signal(signal.SIGINT, signal_handler)
-board = board.Board(int(sys.argv[1]), int(sys.argv[2]))
+def mainloop():
+    signal.signal(signal.SIGINT, signal_handler)
+    b = board.Board(4, 4)
 
-while not board.complete():
-    board.draw()
+    while not b.complete():
+        b.draw()
 
-board.cleanup()
-sys.exit(0)
-signal.pause()
+    b.stdscr.addstr(12,0,"\ngame over! press any key to exit, or r to restart")
+    ch = b.draw()
+    
+    if ch == 114:
+        mainloop()
+
+    b.cleanup()
+    sys.exit(0)
+    signal.pause()
+
+mainloop()

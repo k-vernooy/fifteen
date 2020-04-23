@@ -158,6 +158,7 @@ class Board:
             self.move(4)
 
         self.stdscr.clear()
+        return ch
 
     def cleanup(self):
         curses.nocbreak()
