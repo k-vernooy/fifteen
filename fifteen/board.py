@@ -22,7 +22,7 @@ class Board:
         # set the empty to last index of board
         self.empty = x * y - 1
         
-        self.colors = {}
+        self.colors = {1: [226, 0], 2: [220, 0], 3: [214, 0], 4: [208, 0], 5: [202, 0], 6: [196, 1], 7: [9, 1], 8: [160, 1], 9: [198, 1], 10: [163, 1], 11: [165, 1], 12: [93, 1], 13: [57, 1], 14: [21, 1], 15: [4, 1]}
         # initialize curses
         self.stdscr = curses.initscr()
         curses.start_color()
@@ -42,7 +42,7 @@ class Board:
 
         if dir == 1:
             # move up
-            if (self.empty + self.width <= len(self.board)):
+            if (self.empty + self.width < len(self.board)):
                 check = self.empty + self.width
         elif dir == 2:
             # move right
@@ -64,8 +64,10 @@ class Board:
 
     def shuffle(self):
         """Randomly suffles the board"""
-        shuffle(self.board)
-        self.empty = self.board.index(16) #randint(0, self.height * self.width)
+#        shuffle(self.board)
+        for i in range(0, 1200):
+            self.move(randint(1, 4))
+        # self.empty = self.board.index(16) #randint(0, self.height * self.width)
 
 
     def complete(self):
@@ -111,10 +113,17 @@ class Board:
     def draw(self):
         """Draw the board to the terminal"""
 
-        self.stdscr.clear()
         curses.use_default_colors()
-        curses.init_pair(1, curses.COLOR_RED, -1)
-        curses.init_pair(2, -1, curses.COLOR_RED)
+
+        for key in self.colors:
+            curses.init_pair(key, self.colors[key][0], -1)
+            if self.colors[key][1] == 0:
+                curses.init_pair(key + 20, 0, self.colors[key][0])
+            else:
+                curses.init_pair(key + 20, -1, self.colors[key][0])
+
+        # curses.init_pair(1, curses.COLOR_RED, -1)
+        # curses.init_pair(2, -1, curses.COLOR_RED)
 
         for i in range(0, self.height):
             for j in range(0, self.width):
@@ -128,10 +137,11 @@ class Board:
                 for string in square:
                     l = 0
                     for letter in string:
-                        if represents_int(letter):
-                            self.stdscr.addstr(y + m, x + l, letter, curses.color_pair(2))
-                        else:
-                            self.stdscr.addstr(y + m, x + l, letter, curses.color_pair(1))
+                        if not self.empty == index:
+                            if represents_int(letter):
+                                self.stdscr.addstr(y + m, x + l, letter, curses.color_pair(self.board[index] + 20))
+                            else:
+                                self.stdscr.addstr(y + m, x + l, letter, curses.color_pair(self.board[index]))
                         l += 1
                     m += 1
 
@@ -147,6 +157,7 @@ class Board:
         else:
             self.move(4)
 
+        self.stdscr.clear()
 
     def cleanup(self):
         curses.nocbreak()
