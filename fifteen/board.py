@@ -28,8 +28,10 @@ class Board:
         curses.start_color()
         curses.noecho()
         curses.cbreak()
+        self.stdscr.nodelay(1)
         self.stdscr.keypad(True)
         self.shuffle()
+        curses.use_default_colors()
 
 
     def move(self, dir):
@@ -113,7 +115,7 @@ class Board:
     def draw(self):
         """Draw the board to the terminal"""
 
-        curses.use_default_colors()
+        self.stdscr.clear()
 
         for key in self.colors:
             curses.init_pair(key, self.colors[key][0], -1)
@@ -144,21 +146,6 @@ class Board:
                                 self.stdscr.addstr(y + m, x + l, letter, curses.color_pair(self.board[index]))
                         l += 1
                     m += 1
-
-
-        ch = self.stdscr.getch()
-        
-        if ch == curses.KEY_UP:
-            self.move(1)
-        elif ch == curses.KEY_RIGHT:
-            self.move(2)
-        elif ch == curses.KEY_DOWN:
-            self.move(3)
-        else:
-            self.move(4)
-
-        self.stdscr.clear()
-        return ch
 
     def cleanup(self):
         curses.nocbreak()
